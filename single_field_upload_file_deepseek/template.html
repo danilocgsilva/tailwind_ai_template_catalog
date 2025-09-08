@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Upload Your File</h1>
+            <p class="mt-2 opacity-90">Select a file to get started</p>
+        </div>
+        
+        <div class="p-6">
+            <!-- File upload box -->
+            <div class="relative border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center hover:border-blue-500 transition-colors duration-300"
+                 id="dropZone">
+                <input type="file" id="fileUpload" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-cloud-upload-alt text-blue-600 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 font-medium">Drag & drop your file here</p>
+                <p class="text-gray-500 text-sm mt-2">or</p>
+                
+                <label for="fileUpload" class="mt-4 inline-block px-6 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700 transition-colors duration-300">
+                    Browse Files
+                </label>
+                
+                <p class="text-gray-500 text-xs mt-4">Maximum file size: 10MB</p>
+            </div>
+            
+            <!-- Selected file info -->
+            <div id="fileInfo" class="mt-6 hidden">
+                <p class="text-gray-700 font-medium">Selected file:</p>
+                <div class="mt-2 flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="far fa-file text-blue-600 mr-3"></i>
+                        <span id="fileName" class="text-gray-700 truncate max-w-[200px]">filename.ext</span>
+                    </div>
+                    <button id="removeFile" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <button class="mt-6 w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-800 transition-all duration-300">
+                    Upload File
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 p-4 text-center text-xs text-gray-500">
+            <p>Supported formats: PDF, JPG, PNG, DOCX</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileUpload = document.getElementById('fileUpload');
+            const dropZone = document.getElementById('dropZone');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const removeFile = document.getElementById('removeFile');
+            
+            // Handle file selection
+            fileUpload.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    fileName.textContent = file.name;
+                    fileInfo.classList.remove('hidden');
+                }
+            });
+            
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('border-blue-500');
+                dropZone.classList.remove('border-gray-300');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('border-blue-500');
+                dropZone.classList.add('border-gray-300');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length) {
+                    fileUpload.files = files;
+                    fileName.textContent = files[0].name;
+                    fileInfo.classList.remove('hidden');
+                }
+            }
+            
+            // Remove selected file
+            removeFile.addEventListener('click', function() {
+                fileUpload.value = '';
+                fileInfo.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
