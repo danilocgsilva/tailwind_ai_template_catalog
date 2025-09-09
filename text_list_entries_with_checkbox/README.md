@@ -1,0 +1,189 @@
+# Entries list
+
+## Q: Give me a nice Tailwind CSS template to list texts entries, with two checkbox as well to filter the entries.
+
+Here's a nice Tailwind CSS template for listing text entries with filter checkboxes:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Entries List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Text Entries</h1>
+            <p class="text-gray-600">Manage and filter your text entries</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">Filter Options</h2>
+            <div class="flex flex-wrap gap-6">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" id="filter-active" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="text-gray-700">Active Entries</span>
+                </label>
+                
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" id="filter-important" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="text-gray-700">Important Entries</span>
+                </label>
+                
+                <button id="clear-filters" class="ml-auto text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                    Clear Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Entries List -->
+        <div class="space-y-4" id="entries-list">
+            <!-- Entry 1 -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 entry" data-active="true" data-important="true">
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="text-lg font-semibold text-gray-800">Project Update</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Important</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Completed the initial design phase and started development. The team is making good progress on the frontend components.</p>
+                <div class="text-sm text-gray-500">Created: September 9, 2024</div>
+            </div>
+
+            <!-- Entry 2 -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-gray-300 entry" data-active="false" data-important="true">
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="text-lg font-semibold text-gray-800">Meeting Notes</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Inactive</span>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Important</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Discussed upcoming deadlines and resource allocation. Need to follow up with the design team about the mockups.</p>
+                <div class="text-sm text-gray-500">Created: September 8, 2024</div>
+            </div>
+
+            <!-- Entry 3 -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 entry" data-active="true" data-important="false">
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="text-lg font-semibold text-gray-800">Daily Tasks</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Review pull requests, write documentation, and prepare for tomorrow's standup meeting.</p>
+                <div class="text-sm text-gray-500">Created: September 9, 2024</div>
+            </div>
+
+            <!-- Entry 4 -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-gray-300 entry" data-active="false" data-important="false">
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="text-lg font-semibold text-gray-800">Old Reference</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Inactive</span>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">This entry is no longer relevant but kept for historical reference purposes.</p>
+                <div class="text-sm text-gray-500">Created: August 15, 2024</div>
+            </div>
+        </div>
+
+        <!-- No Results Message (hidden by default) -->
+        <div id="no-results" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-600 mb-2">No entries found</h3>
+            <p class="text-gray-500">Try adjusting your filter criteria</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterActive = document.getElementById('filter-active');
+            const filterImportant = document.getElementById('filter-important');
+            const clearFilters = document.getElementById('clear-filters');
+            const entries = document.querySelectorAll('.entry');
+            const noResults = document.getElementById('no-results');
+
+            function filterEntries() {
+                const showActive = filterActive.checked;
+                const showImportant = filterImportant.checked;
+                let visibleCount = 0;
+
+                entries.forEach(entry => {
+                    const isActive = entry.getAttribute('data-active') === 'true';
+                    const isImportant = entry.getAttribute('data-important') === 'true';
+                    
+                    let shouldShow = true;
+                    
+                    if (showActive && !isActive) shouldShow = false;
+                    if (showImportant && !isImportant) shouldShow = false;
+                    
+                    if (shouldShow) {
+                        entry.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        entry.classList.add('hidden');
+                    }
+                });
+
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
+            }
+
+            // Event listeners
+            filterActive.addEventListener('change', filterEntries);
+            filterImportant.addEventListener('change', filterEntries);
+            
+            clearFilters.addEventListener('click', function() {
+                filterActive.checked = false;
+                filterImportant.checked = false;
+                filterEntries();
+            });
+
+            // Initial filter
+            filterEntries();
+        });
+    </script>
+</body>
+</html>
+```
+
+This template includes:
+
+**Features:**
+- Clean, modern design with Tailwind CSS
+- Two filter checkboxes (Active and Important entries)
+- Visual status badges for each entry
+- Responsive layout that works on mobile and desktop
+- JavaScript filtering functionality
+- "No results" message when filters return empty
+- Clear filters button
+
+**Design Elements:**
+- Soft shadows and rounded corners
+- Left border colors to indicate status
+- Color-coded badges for quick visual identification
+- Clean typography and spacing
+- Hover effects and smooth transitions
+
+**Functionality:**
+- Checkboxes filter entries in real-time
+- Entries can have multiple statuses (active/inactive, important/not important)
+- Clear filters button resets all selections
+- Responsive design that works on all screen sizes
+
+You can customize the colors, spacing, and content to match your specific needs. The JavaScript is included for the filtering functionality, but you can modify it to work with your backend if needed.
