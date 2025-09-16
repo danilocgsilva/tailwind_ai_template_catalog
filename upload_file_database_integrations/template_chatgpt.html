@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Database Connection UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+<body class="h-screen flex flex-col bg-gray-50" x-data="{ sidebarOpen: false }">
+
+  <!-- Top Warning -->
+  <div class="bg-red-100 border-b border-red-300 text-red-800 px-4 py-2 text-center text-sm font-medium">
+    ⚠️ No database connection set
+  </div>
+
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden md:flex md:flex-col w-64 bg-white border-r border-gray-200 shadow-sm">
+      <div class="p-4 border-b font-semibold text-gray-700">Database Connections</div>
+      <nav class="flex-1 overflow-y-auto">
+        <ul class="space-y-1 p-2 text-sm">
+          <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">Postgres - Local</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">MySQL - Dev</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">SQLite - Test</a></li>
+        </ul>
+      </nav>
+      <div class="p-4 border-t">
+        <button class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-3 rounded-lg hover:bg-blue-700 transition">
+          + Add Connection
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Sidebar Button -->
+    <div class="md:hidden border-r border-gray-200 bg-white w-16 flex flex-col items-center py-4 space-y-4">
+      <button @click="sidebarOpen = true"
+              class="w-10 h-10 rounded bg-gray-100 flex items-center justify-center hover:bg-gray-200">
+        ☰
+      </button>
+    </div>
+
+    <!-- Mobile Sidebar (Slide-in) -->
+    <div x-show="sidebarOpen" x-transition
+         class="fixed inset-0 z-40 flex md:hidden">
+      <!-- Overlay -->
+      <div @click="sidebarOpen = false" class="fixed inset-0 bg-black/30"></div>
+
+      <!-- Sidebar -->
+      <aside class="relative flex flex-col w-64 bg-white border-r border-gray-200 shadow-lg">
+        <div class="flex items-center justify-between p-4 border-b">
+          <span class="font-semibold text-gray-700">Database Connections</span>
+          <button @click="sidebarOpen = false" class="text-gray-500 hover:text-gray-700">✕</button>
+        </div>
+        <nav class="flex-1 overflow-y-auto">
+          <ul class="space-y-1 p-2 text-sm">
+            <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">Postgres - Local</a></li>
+            <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">MySQL - Dev</a></li>
+            <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">SQLite - Test</a></li>
+          </ul>
+        </nav>
+        <div class="p-4 border-t">
+          <button class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-3 rounded-lg hover:bg-blue-700 transition">
+            + Add Connection
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center p-6">
+      <div class="w-full max-w-lg">
+        <!-- File Upload Box -->
+        <label class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-10 cursor-pointer hover:border-gray-400 hover:bg-gray-50 transition">
+          <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M7 16V4a2 2 0 012-2h6a2 2 0 012 2v12m4 0h-4m-4 4h4m-4 0v-4m0 4H7m0 0H3"/>
+          </svg>
+          <span class="text-gray-600">Click to upload or drag & drop</span>
+          <input type="file" class="hidden" />
+        </label>
+      </div>
+    </main>
+
+  </div>
+</body>
+</html>
