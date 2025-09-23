@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form with Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Feedback Form</h1>
+        
+        <form id="dynamicForm" class="space-y-6">
+            <!-- Name Input -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                <input type="text" id="name" name="name" required 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            
+            <!-- Email Input -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="email" name="email" required 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            
+            <!-- Radio Buttons -->
+            <div>
+                <p class="block text-sm font-medium text-gray-700 mb-2">Feedback Type</p>
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="feedbackType" value="select" checked 
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <span class="ml-2 text-gray-700">Select from options</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="feedbackType" value="textarea" 
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <span class="ml-2 text-gray-700">Write your own</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Dynamic Content Area -->
+            <div id="dynamicContent">
+                <!-- Select Input (shown by default) -->
+                <div id="selectContainer">
+                    <label for="feedbackSelect" class="block text-sm font-medium text-gray-700 mb-1">Choose a category</label>
+                    <select id="feedbackSelect" name="feedbackSelect" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Please select an option</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="feature">Feature Request</option>
+                        <option value="improvement">Improvement Suggestion</option>
+                        <option value="general">General Feedback</option>
+                    </select>
+                </div>
+                
+                <!-- Textarea (hidden by default) -->
+                <div id="textareaContainer" class="hidden">
+                    <label for="feedbackText" class="block text-sm font-medium text-gray-700 mb-1">Your feedback</label>
+                    <textarea id="feedbackText" name="feedbackText" rows="4" 
+                              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                              placeholder="Please provide your feedback here..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" 
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Submit Feedback
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioButtons = document.querySelectorAll('input[name="feedbackType"]');
+            const selectContainer = document.getElementById('selectContainer');
+            const textareaContainer = document.getElementById('textareaContainer');
+            const feedbackSelect = document.getElementById('feedbackSelect');
+            const feedbackText = document.getElementById('feedbackText');
+            
+            // Function to toggle between select and textarea
+            function toggleInputs() {
+                const selectedValue = document.querySelector('input[name="feedbackType"]:checked').value;
+                
+                if (selectedValue === 'select') {
+                    selectContainer.classList.remove('hidden');
+                    textareaContainer.classList.add('hidden');
+                    feedbackText.removeAttribute('required');
+                    feedbackSelect.setAttribute('required', 'required');
+                } else {
+                    selectContainer.classList.add('hidden');
+                    textareaContainer.classList.remove('hidden');
+                    feedbackSelect.removeAttribute('required');
+                    feedbackText.setAttribute('required', 'required');
+                }
+            }
+            
+            // Add event listeners to radio buttons
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', toggleInputs);
+            });
+            
+            // Handle form submission
+            document.getElementById('dynamicForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple validation
+                const selectedValue = document.querySelector('input[name="feedbackType"]:checked').value;
+                let isValid = true;
+                
+                if (selectedValue === 'select' && !feedbackSelect.value) {
+                    isValid = false;
+                    alert('Please select a feedback category.');
+                } else if (selectedValue === 'textarea' && !feedbackText.value.trim()) {
+                    isValid = false;
+                    alert('Please provide your feedback.');
+                }
+                
+                if (isValid) {
+                    // In a real application, you would submit the form here
+                    alert('Form submitted successfully!');
+                    this.reset();
+                    // Reset to default state
+                    document.querySelector('input[value="select"]').checked = true;
+                    toggleInputs();
+                }
+            });
+            
+            // Initialize the form state
+            toggleInputs();
+        });
+    </script>
+</body>
+</html>
