@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tailwind — Removable List (Pure HTML)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* small utility for smooth collapse animation */
+      .collapse {
+        transition: height 220ms ease, opacity 220ms ease, margin 200ms ease, padding 200ms ease;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-50 flex items-start justify-center p-6">
+    <main class="w-full max-w-2xl bg-white shadow-md rounded-2xl p-6">
+      <header class="flex items-center justify-between mb-4">
+        <div>
+          <h1 class="text-2xl font-semibold text-slate-800">Things to do</h1>
+          <p class="text-sm text-slate-500">Click the × on the right to delete an entry.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="addBtn" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-sm text-slate-700 shadow-sm">
+            + Add
+          </button>
+        </div>
+      </header>
+
+      <section>
+        <ul id="list" class="divide-y divide-slate-100 rounded-lg border border-slate-100 overflow-hidden">
+          <li class="flex items-center justify-between px-4 py-3 bg-white hover:bg-slate-50">
+            <div class="flex items-center gap-3">
+              <span class="h-2 w-2 rounded-full bg-emerald-400 inline-block" aria-hidden></span>
+              <span class="text-slate-700">Learn Tailwind</span>
+            </div>
+            <div>
+              <button class="deleteBtn group inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200" aria-label="Delete Learn Tailwind" title="Delete">
+                <svg class="h-4 w-4 text-slate-400 group-hover:text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </li>
+
+          <li class="flex items-center justify-between px-4 py-3 bg-white hover:bg-slate-50">
+            <div class="flex items-center gap-3">
+              <span class="h-2 w-2 rounded-full bg-amber-400 inline-block" aria-hidden></span>
+              <span class="text-slate-700">Build a small app</span>
+            </div>
+            <div>
+              <button class="deleteBtn group inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200" aria-label="Delete Build a small app" title="Delete">
+                <svg class="h-4 w-4 text-slate-400 group-hover:text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </li>
+
+          <li class="flex items-center justify-between px-4 py-3 bg-white hover:bg-slate-50">
+            <div class="flex items-center gap-3">
+              <span class="h-2 w-2 rounded-full bg-sky-400 inline-block" aria-hidden></span>
+              <span class="text-slate-700">Write tests</span>
+            </div>
+            <div>
+              <button class="deleteBtn group inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200" aria-label="Delete Write tests" title="Delete">
+                <svg class="h-4 w-4 text-slate-400 group-hover:text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </li>
+
+          <li class="flex items-center justify-between px-4 py-3 bg-white hover:bg-slate-50">
+            <div class="flex items-center gap-3">
+              <span class="h-2 w-2 rounded-full bg-rose-400 inline-block" aria-hidden></span>
+              <span class="text-slate-700">Deploy to Prod</span>
+            </div>
+            <div>
+              <button class="deleteBtn group inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200" aria-label="Delete Deploy to Prod" title="Delete">
+                <svg class="h-4 w-4 text-slate-400 group-hover:text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </li>
+        </ul>
+
+        <p id="emptyMsg" class="px-6 py-8 text-center text-slate-500 hidden">No items — you're all caught up! 🎉</p>
+      </section>
+
+      <footer class="mt-4 text-xs text-slate-500">Tip: Use keyboard to focus the × button and press Enter/Space to remove an item.</footer>
+    </main>
+
+    <script>
+      (function () {
+        const list = document.getElementById('list');
+        const addBtn = document.getElementById('addBtn');
+        const emptyMsg = document.getElementById('emptyMsg');
+
+        function updateEmptyState() {
+          const hasItems = list.querySelectorAll('li').length > 0;
+          list.style.display = hasItems ? '' : 'none';
+          emptyMsg.classList.toggle('hidden', hasItems);
+        }
+
+        function animateRemove(item) {
+          // measure current height then set explicit height to enable transition
+          const startHeight = item.offsetHeight;
+          item.style.height = startHeight + 'px';
+          item.classList.add('collapse');
+
+          // allow the browser to paint
+          requestAnimationFrame(() => {
+            // collapse padding and margin by setting height to 0
+            item.style.height = '0px';
+            item.style.opacity = '0';
+            item.style.paddingTop = '0';
+            item.style.paddingBottom = '0';
+            item.style.marginTop = '0';
+            item.style.marginBottom = '0';
+          });
+
+          // remove from DOM after transition
+          item.addEventListener('transitionend', function onEnd(e) {
+            if (e.propertyName === 'height') {
+              item.removeEventListener('transitionend', onEnd);
+              item.remove();
+              updateEmptyState();
+            }
+          });
+        }
+
+        function onDeleteClick(e) {
+          const btn = e.currentTarget;
+          const li = btn.closest('li');
+          if (!li) return;
+
+          // optional confirm — simple and unobtrusive
+          const label = btn.getAttribute('aria-label') || 'this item';
+          if (!confirm('Delete ' + label + '?')) return;
+
+          animateRemove(li);
+        }
+
+        function wireDeleteButtons(container) {
+          container.querySelectorAll('.deleteBtn').forEach((btn) => {
+            btn.addEventListener('click', onDeleteClick);
+            btn.addEventListener('keydown', (ev) => {
+              if (ev.key === 'Enter' || ev.key === ' ') {
+                ev.preventDefault();
+                btn.click();
+              }
+            });
+          });
+        }
+
+        // initial wiring
+        wireDeleteButtons(list);
+        updateEmptyState();
+
+        // add new items
+        let nextId = 5;
+        addBtn.addEventListener('click', () => {
+          const li = document.createElement('li');
+          li.className = 'flex items-center justify-between px-4 py-3 bg-white hover:bg-slate-50';
+
+          const left = document.createElement('div');
+          left.className = 'flex items-center gap-3';
+          left.innerHTML = `<span class="h-2 w-2 rounded-full bg-slate-400 inline-block" aria-hidden></span><span class="text-slate-700">New Item ${nextId}</span>`;
+
+          const right = document.createElement('div');
+          right.innerHTML = `
+            <button class="deleteBtn group inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200" aria-label="Delete New Item ${nextId}" title="Delete">
+              <svg class="h-4 w-4 text-slate-400 group-hover:text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          `;
+
+          li.appendChild(left);
+          li.appendChild(right);
+
+          // append and animate in (simple fade/height grow)
+          li.style.height = '0px';
+          li.style.opacity = '0';
+          li.classList.add('collapse');
+          list.appendChild(li);
+
+          // let the browser paint then expand
+          requestAnimationFrame(() => {
+            const targetHeight = li.scrollHeight;
+            li.style.height = targetHeight + 'px';
+            li.style.opacity = '1';
+          });
+
+          // after transition, clear explicit height to allow natural sizing
+          li.addEventListener('transitionend', function onEnd(e) {
+            if (e.propertyName === 'height') {
+              li.removeEventListener('transitionend', onEnd);
+              li.style.height = '';
+              li.classList.remove('collapse');
+            }
+          });
+
+          // wire delete on the new button
+          wireDeleteButtons(li);
+
+          nextId += 1;
+          updateEmptyState();
+        });
+      })();
+    </script>
+  </body>
+</html>
