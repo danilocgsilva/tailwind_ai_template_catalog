@@ -1,0 +1,9 @@
+services:
+  react_template_template7_light:
+    build:
+      context: .
+    container_name: react_template_template7_light
+    volumes:
+      - './app:/app'
+    ports:
+      - '3004:3000'

@@ -1,0 +1,9 @@
+services:
+  react_template_template3:
+    build:
+      context: .
+    container_name: react_template_template3
+    volumes:
+      - './app:/app'
+    ports:
+      - '3001:3000'
