@@ -7,7 +7,7 @@
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script> -->
     <style>
         /* Custom styles to match the original design */
         body {
@@ -152,25 +152,37 @@
 
     <script>
         // Initialize Lucide icons
-        lucide.createIcons();
+        //lucide.createIcons();
         
         // Mobile menu toggle functionality
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = menuToggle.querySelector('i');
+
+        function toHamburger() {
+            const innerHtml = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu" aria-hidden="true"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>`;            
+            menuToggle.innerHTML = innerHtml;
+        }
+
+        function toX() {
+            const innerHtml = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            menuToggle.innerHTML = innerHtml;
+        }
         
         menuToggle.addEventListener('click', function() {
             if (mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.remove('hidden');
                 // Change icon to X
-                menuIcon.setAttribute('data-lucide', 'x');
+                //menuIcon.setAttribute('data-lucide', 'x');
+                toX();
             } else {
                 mobileMenu.classList.add('hidden');
                 // Change icon back to menu
-                menuIcon.setAttribute('data-lucide', 'menu');
+                //menuIcon.setAttribute('data-lucide', 'menu');
+                toHamburger();
             }
             // Re-render the icon
-            lucide.createIcons();
+            //lucide.createIcons();
         });
         
         // Login functionality
@@ -195,6 +207,9 @@
                 handleSubmit();
             }
         });
+
+        // toHamburger();
+        // toX();
     </script>
 </body>
 </html>
