@@ -11,6 +11,24 @@
         body {
             background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%);
         }
+        
+        /* Fixed mobile menu animation */
+        #mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+        }
+        
+        #mobile-menu.open {
+            max-height: 300px;
+            opacity: 1;
+        }
+        
+        /* Smooth transitions for all interactive elements */
+        button, a, input {
+            transition: all 0.2s ease-in-out;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -33,7 +51,7 @@
                 </div>
 
                 <div class="md:hidden">
-                    <button id="menu-toggle" class="text-gray-300 hover:text-white p-2">
+                    <button id="menu-toggle" class="text-gray-300 hover:text-white p-2 transition-transform hover:scale-110">
                         <!-- Default hamburger icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu" aria-hidden="true">
                             <path d="M4 5h16"></path>
@@ -45,13 +63,13 @@
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 border-t border-gray-700">
+        <div id="mobile-menu" class="md:hidden bg-gray-800 border-t border-gray-700">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Home</a>
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Products</a>
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Solutions</a>
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">About</a>
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Contact</a>
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium transition-colors hover:bg-gray-700 rounded">Home</a>
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium transition-colors hover:bg-gray-700 rounded">Products</a>
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium transition-colors hover:bg-gray-700 rounded">Solutions</a>
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium transition-colors hover:bg-gray-700 rounded">About</a>
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium transition-colors hover:bg-gray-700 rounded">Contact</a>
             </div>
         </div>
     </nav>
@@ -166,9 +184,10 @@
     </div>
 
     <script>
-        // Mobile menu toggle functionality
+        // Mobile menu toggle functionality with animation
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
 
         function toHamburger() {
             const innerHtml = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu" aria-hidden="true"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>`;            
@@ -180,14 +199,30 @@
             menuToggle.innerHTML = innerHtml;
         }
         
-        menuToggle.addEventListener('click', function() {
-            if (mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.remove('hidden');
+        function toggleMenu() {
+            if (!isMenuOpen) {
+                // Open the menu with animation
+                mobileMenu.classList.add('open');
                 toX();
+                isMenuOpen = true;
             } else {
-                mobileMenu.classList.add('hidden');
+                // Close the menu with animation
+                mobileMenu.classList.remove('open');
                 toHamburger();
+                isMenuOpen = false;
             }
+        }
+        
+        menuToggle.addEventListener('click', toggleMenu);
+        
+        // Close menu when clicking on a menu item
+        const menuItems = mobileMenu.querySelectorAll('a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                toHamburger();
+                isMenuOpen = false;
+            });
         });
         
         // Login functionality
