@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Upload Template</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex bg-gray-50 text-gray-800">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <div class="p-4 border-b">
+      <h2 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+        Database Connections
+      </h2>
+    </div>
+    
+    <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+      <button class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-100 text-gray-700">
+        Production
+      </button>
+      <button class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-100 text-gray-700">
+        Staging
+      </button>
+      <button class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-100 text-gray-700">
+        Development
+      </button>
+    </nav>
+
+    <div class="p-4 border-t">
+      <button class="w-full bg-gray-800 text-white px-3 py-2 text-sm rounded-md hover:bg-gray-700 transition">
+        + Add Connection
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex items-center justify-center">
+    <div class="bg-white border border-gray-200 shadow-sm rounded-md p-8 w-full max-w-md">
+      <h1 class="text-xl font-medium text-gray-800 mb-6 text-center">
+        Upload File
+      </h1>
+      
+      <form class="space-y-6">
+        <!-- File Input -->
+        <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-md p-8 hover:border-gray-400 transition">
+          <svg class="w-10 h-10 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 16a4 4 0 01-.88-7.903A5.978 5.978 0 0112 4c1.657 0 3.156.672 4.243 1.757A5.978 5.978 0 0120 12a4 4 0 01-4 4H7z" />
+          </svg>
+          <input type="file" class="hidden" id="fileUpload" />
+          <label for="fileUpload" class="cursor-pointer text-sm text-blue-600 hover:underline">
+            Choose a file
+          </label>
+          <p class="text-xs text-gray-500 mt-2">or drag and drop here</p>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-gray-800 text-white px-4 py-2 text-sm rounded-md hover:bg-gray-700 transition">
+          Upload
+        </button>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>
