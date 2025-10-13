@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Dark Layout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#0f172a',       // dark navy background
+            surface: '#1e293b',    // surface elements
+            accent: '#3b82f6',     // blue accent
+            textPrimary: '#f1f5f9', // light text
+            textSecondary: '#94a3b8', // muted text
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="antialiased bg-base text-textPrimary">
+
+  <!-- Navbar -->
+  <header class="bg-surface border-b border-gray-700 sticky top-0 z-50">
+    <div class="max-w-[1240px] mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="text-xl font-semibold tracking-tight text-white">BrandName</a>
+      <nav class="hidden md:flex space-x-8 text-sm font-medium">
+        <a href="#" class="hover:text-accent transition-colors">Home</a>
+        <a href="#" class="hover:text-accent transition-colors">About</a>
+        <a href="#" class="hover:text-accent transition-colors">Services</a>
+        <a href="#" class="hover:text-accent transition-colors">Contact</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button id="menuBtn" class="md:hidden p-2 text-gray-300 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden bg-surface border-t border-gray-700">
+      <nav class="px-6 py-4 space-y-3">
+        <a href="#" class="block hover:text-accent transition-colors">Home</a>
+        <a href="#" class="block hover:text-accent transition-colors">About</a>
+        <a href="#" class="block hover:text-accent transition-colors">Services</a>
+        <a href="#" class="block hover:text-accent transition-colors">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-[1240px] mx-auto px-6 py-20 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight text-white">
+      Build Elegant Interfaces in the Dark
+    </h1>
+    <p class="text-lg text-textSecondary mb-8 max-w-2xl mx-auto">
+      A professional dark theme Tailwind layout for modern applications.  
+      Responsive, accessible, and visually balanced — no borders, no clutter.
+    </p>
+    <a href="#" class="inline-block bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors">
+      Get Started
+    </a>
+  </section>
+
+  <!-- Content Section -->
+  <section class="max-w-[1240px] mx-auto px-6 py-16 grid md:grid-cols-3 gap-12">
+    <div>
+      <h2 class="text-2xl font-semibold text-white mb-3">Clean Typography</h2>
+      <p class="text-textSecondary leading-relaxed">
+        Thoughtful text contrast and spacing for readability — ideal for blogs, dashboards, and documentation.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-2xl font-semibold text-white mb-3">Fully Responsive</h2>
+      <p class="text-textSecondary leading-relaxed">
+        Works seamlessly on mobile, tablet, and desktop with a max layout width of 1240px for clarity and focus.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-2xl font-semibold text-white mb-3">Modern Aesthetic</h2>
+      <p class="text-textSecondary leading-relaxed">
+        A dark, subtle visual design that’s easy on the eyes and great for tech, finance, or developer audiences.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-surface border-t border-gray-700 mt-12">
+    <div class="max-w-[1240px] mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center text-sm text-textSecondary">
+      <p>&copy; 2025 BrandName. All rights reserved.</p>
+      <div class="flex space-x-6 mt-4 md:mt-0">
+        <a href="#" class="hover:text-accent transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-accent transition-colors">Terms of Use</a>
+        <a href="#" class="hover:text-accent transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
