@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-white">Create Account</h1>
+            <p class="text-gray-400 mt-2">Join our platform and get started today</p>
+        </div>
+        
+        <!-- Form -->
+        <form class="space-y-6" id="registerForm">
+            <!-- Name Field -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                <div class="relative">
+                    <input type="text" id="name" name="name" 
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-500 transition"
+                        placeholder="Enter your full name">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <i class="fas fa-user text-gray-500"></i>
+                    </div>
+                </div>
+                <p class="text-red-400 text-xs mt-1 hidden" id="nameError">Name is required</p>
+            </div>
+            
+            <!-- Email Field -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                <div class="relative">
+                    <input type="email" id="email" name="email" 
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-500 transition"
+                        placeholder="you@example.com">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <i class="fas fa-envelope text-gray-500"></i>
+                    </div>
+                </div>
+                <p class="text-red-400 text-xs mt-1 hidden" id="emailError">Please enter a valid email address</p>
+            </div>
+            
+            <!-- Password Field -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                <div class="relative">
+                    <input type="password" id="password" name="password" 
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-500 transition"
+                        placeholder="••••••••">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <button type="button" id="togglePassword" class="text-gray-500 hover:text-gray-400 focus:outline-none">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-red-400 text-xs mt-1 hidden" id="passwordError">Password must be at least 8 characters</p>
+            </div>
+            
+            <!-- Confirm Password Field -->
+            <div>
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-1">Confirm Password</label>
+                <div class="relative">
+                    <input type="password" id="confirmPassword" name="confirmPassword" 
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-500 transition"
+                        placeholder="••••••••">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <i class="fas fa-lock text-gray-500"></i>
+                    </div>
+                </div>
+                <p class="text-red-400 text-xs mt-1 hidden" id="confirmPasswordError">Passwords do not match</p>
+            </div>
+            
+            <!-- Terms and Conditions -->
+            <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    <input id="terms" name="terms" type="checkbox" 
+                        class="focus:ring-blue-500 h-4 w-4 text-blue-600 bg-gray-800 border-gray-700 rounded">
+                </div>
+                <div class="ml-3 text-sm">
+                    <label for="terms" class="text-gray-400">I agree to the <a href="#" class="text-blue-400 hover:text-blue-300 font-medium hover:underline">Terms and Conditions</a></label>
+                </div>
+            </div>
+            <p class="text-red-400 text-xs mt-1 hidden" id="termsError">You must accept the terms and conditions</p>
+            
+            <!-- Submit Button -->
+            <button type="submit" 
+                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900">
+                Create Account
+            </button>
+            
+            <!-- Divider -->
+            <div class="relative flex items-center my-6">
+                <div class="flex-grow border-t border-gray-700"></div>
+                <span class="flex-shrink mx-4 text-gray-500 text-sm">Or continue with</span>
+                <div class="flex-grow border-t border-gray-700"></div>
+            </div>
+            
+            <!-- Social Login -->
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" 
+                    class="flex items-center justify-center py-2.5 px-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 transition text-white">
+                    <i class="fab fa-google text-gray-300 mr-2"></i>
+                    <span class="text-sm font-medium">Google</span>
+                </button>
+                <button type="button" 
+                    class="flex items-center justify-center py-2.5 px-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-750 transition text-white">
+                    <i class="fab fa-apple text-gray-300 mr-2"></i>
+                    <span class="text-sm font-medium">Apple</span>
+                </button>
+            </div>
+            
+            <!-- Login Link -->
+            <div class="text-center mt-8">
+                <p class="text-sm text-gray-400">
+                    Already have an account?
+                    <a href="#" class="text-blue-400 font-medium hover:text-blue-300 hover:underline">Sign in</a>
+                </p>
+            </div>
+        </form>
+        
+        <!-- Success Message (Hidden by default) -->
+        <div id="successMessage" class="hidden mt-6 p-4 bg-gray-800 border border-gray-700 rounded-lg">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                <p class="text-green-400 font-medium">Registration successful! Welcome to our platform.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerForm');
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+            
+            // Form validation
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+                
+                // Reset error messages
+                document.querySelectorAll('[id$="Error"]').forEach(el => {
+                    el.classList.add('hidden');
+                });
+                
+                // Validate name
+                const name = document.getElementById('name');
+                if (!name.value.trim()) {
+                    document.getElementById('nameError').classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                // Validate email
+                const email = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.value)) {
+                    document.getElementById('emailError').classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                // Validate password
+                const password = document.getElementById('password');
+                if (password.value.length < 8) {
+                    document.getElementById('passwordError').classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                // Validate confirm password
+                const confirmPassword = document.getElementById('confirmPassword');
+                if (password.value !== confirmPassword.value) {
+                    document.getElementById('confirmPasswordError').classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                // Validate terms
+                const terms = document.getElementById('terms');
+                if (!terms.checked) {
+                    document.getElementById('termsError').classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                // If form is valid, show success message
+                if (isValid) {
+                    form.reset();
+                    successMessage.classList.remove('hidden');
+                    setTimeout(() => {
+                        successMessage.classList.add('hidden');
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
