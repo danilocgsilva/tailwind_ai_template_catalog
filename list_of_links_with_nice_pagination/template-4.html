@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Links List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+
+  <div class="w-full max-w-7xl bg-white shadow-lg rounded-2xl p-6">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">Useful Links</h1>
+
+    <!-- Links List -->
+    <ul id="linksList" class="space-y-3"></ul>
+
+    <!-- Pagination Row -->
+    <div class="flex items-center justify-between mt-6">
+      <!-- Centered Pagination -->
+      <div class="flex-1 flex justify-center">
+        <div class="flex items-center space-x-1" id="pagination"></div>
+      </div>
+
+      <!-- Go to page (right aligned, compact) -->
+      <form id="gotoForm" class="relative">
+        <input
+          type="number"
+          id="pageInput"
+          min="1"
+          placeholder="#"
+          class="w-20 pr-8 pl-2 py-1 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
+        />
+        <button
+          type="submit"
+          class="absolute right-1 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
+          title="Go"
+        >
+          ➤
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const links = Array.from({ length: 142 }, (_, i) => ({
+      title: `Link ${i + 1}`,
+      url: '#'
+    }));
+
+    const perPage = 6;
+    let currentPage = 1;
+    const windowSize = 2;
+
+    function getTotalPages() {
+      return Math.ceil(links.length / perPage);
+    }
+
+    function renderLinks() {
+      const list = document.getElementById('linksList');
+      list.innerHTML = '';
+
+      const start = (currentPage - 1) * perPage;
+      const paginated = links.slice(start, start + perPage);
+
+      paginated.forEach(link => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${link.url}" class="block p-4 rounded-xl border hover:bg-gray-50 transition">
+            <span class="text-blue-600 font-medium">${link.title}</span>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function createButton(label, page, isActive = false, disabled = false) {
+      const btn = document.createElement('button');
+      btn.innerHTML = label;
+      btn.disabled = disabled;
+      btn.className = `px-3 py-1 rounded-lg border text-sm ${
+        isActive
+          ? 'bg-blue-600 text-white'
+          : disabled
+          ? 'opacity-50 cursor-not-allowed'
+          : 'bg-white hover:bg-gray-100'
+      }`;
+
+      if (!disabled) {
+        btn.onclick = () => {
+          currentPage = page;
+          update();
+        };
+      }
+
+      return btn;
+    }
+
+    function renderPagination() {
+      const total = getTotalPages();
+      const container = document.getElementById('pagination');
+      container.innerHTML = '';
+
+      container.appendChild(
+        createButton('&laquo;', currentPage - 1, false, currentPage === 1)
+      );
+
+      let start = Math.max(1, currentPage - windowSize);
+      let end = Math.min(total, currentPage + windowSize);
+
+      if (start > 1) {
+        container.appendChild(createButton('1', 1));
+        if (start > 2) {
+          const dots = document.createElement('span');
+          dots.className = 'px-2 text-gray-400';
+          dots.textContent = '...';
+          container.appendChild(dots);
+        }
+      }
+
+      for (let i = start; i <= end; i++) {
+        container.appendChild(createButton(i, i, i === currentPage));
+      }
+
+      if (end < total) {
+        if (end < total - 1) {
+          const dots = document.createElement('span');
+          dots.className = 'px-2 text-gray-400';
+          dots.textContent = '...';
+          container.appendChild(dots);
+        }
+        container.appendChild(createButton(total, total));
+      }
+
+      container.appendChild(
+        createButton('&raquo;', currentPage + 1, false, currentPage === total)
+      );
+    }
+
+    function update() {
+      renderLinks();
+      renderPagination();
+    }
+
+    document.getElementById('gotoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('pageInput');
+      const page = parseInt(input.value, 10);
+      const totalPages = getTotalPages();
+
+      if (!isNaN(page) && page >= 1 && page <= totalPages) {
+        currentPage = page;
+        update();
+        input.value = '';
+      } else {
+        input.value = '';
+      }
+    });
+
+    update();
+  </script>
+
+</body>
+</html>

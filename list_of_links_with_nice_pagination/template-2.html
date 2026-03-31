@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Links List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-6">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">Useful Links</h1>
+
+    <!-- Links List -->
+    <ul id="linksList" class="space-y-3"></ul>
+
+    <!-- Pagination Controls -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mt-6">
+      <div class="flex items-center space-x-2" id="pagination"></div>
+
+      <!-- Go to page -->
+      <form id="gotoForm" class="flex items-center space-x-2">
+        <label class="text-sm text-gray-600">Go to page:</label>
+        <input
+          type="number"
+          id="pageInput"
+          min="1"
+          class="w-20 px-2 py-1 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
+        />
+        <button
+          type="submit"
+          class="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >Go</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const links = Array.from({ length: 142 }, (_, i) => ({
+      title: `Link ${i + 1}`,
+      url: '#'
+    }));
+
+    const perPage = 6;
+    let currentPage = 1;
+
+    function getTotalPages() {
+      return Math.ceil(links.length / perPage);
+    }
+
+    function renderLinks() {
+      const list = document.getElementById('linksList');
+      list.innerHTML = '';
+
+      const start = (currentPage - 1) * perPage;
+      const paginated = links.slice(start, start + perPage);
+
+      paginated.forEach(link => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${link.url}" class="block p-4 rounded-xl border hover:bg-gray-50 transition">
+            <span class="text-blue-600 font-medium">${link.title}</span>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function renderPagination() {
+      const totalPages = getTotalPages();
+      const container = document.getElementById('pagination');
+      container.innerHTML = '';
+
+      // Previous button
+      const prev = document.createElement('button');
+      prev.textContent = 'Prev';
+      prev.disabled = currentPage === 1;
+      prev.className = `px-3 py-1 rounded-lg border ${prev.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`;
+      prev.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          update();
+        }
+      };
+      container.appendChild(prev);
+
+      // Current page indicator
+      const info = document.createElement('span');
+      info.className = 'px-3 py-1 text-sm text-gray-600';
+      info.textContent = `Page ${currentPage} of ${totalPages}`;
+      container.appendChild(info);
+
+      // Next button
+      const next = document.createElement('button');
+      next.textContent = 'Next';
+      next.disabled = currentPage === totalPages;
+      next.className = `px-3 py-1 rounded-lg border ${next.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`;
+      next.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          update();
+        }
+      };
+      container.appendChild(next);
+    }
+
+    function update() {
+      renderLinks();
+      renderPagination();
+    }
+
+    // Go to page form
+    document.getElementById('gotoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('pageInput');
+      const page = parseInt(input.value, 10);
+      const totalPages = getTotalPages();
+
+      if (!isNaN(page) && page >= 1 && page <= totalPages) {
+        currentPage = page;
+        update();
+        input.value = '';
+      } else {
+        alert(`Please enter a number between 1 and ${totalPages}`);
+      }
+    });
+
+    update();
+  </script>
+
+</body>
+</html>

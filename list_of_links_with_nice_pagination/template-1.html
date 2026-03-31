@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Links List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-6">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">Useful Links</h1>
+
+    <!-- Links List -->
+    <ul id="linksList" class="space-y-3"></ul>
+
+    <!-- Pagination -->
+    <div class="flex justify-center mt-6 space-x-2" id="pagination"></div>
+  </div>
+
+  <script>
+    const links = Array.from({ length: 42 }, (_, i) => ({
+      title: `Link ${i + 1}`,
+      url: '#'
+    }));
+
+    const perPage = 6;
+    let currentPage = 1;
+
+    function renderLinks() {
+      const list = document.getElementById('linksList');
+      list.innerHTML = '';
+
+      const start = (currentPage - 1) * perPage;
+      const paginated = links.slice(start, start + perPage);
+
+      paginated.forEach(link => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${link.url}" class="block p-4 rounded-xl border hover:bg-gray-50 transition">
+            <span class="text-blue-600 font-medium">${link.title}</span>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(links.length / perPage);
+      const container = document.getElementById('pagination');
+      container.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = `px-3 py-1 rounded-lg border ${i === currentPage ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-100'}`;
+        btn.onclick = () => {
+          currentPage = i;
+          renderLinks();
+          renderPagination();
+        };
+        container.appendChild(btn);
+      }
+    }
+
+    renderLinks();
+    renderPagination();
+  </script>
+
+</body>
+</html>
